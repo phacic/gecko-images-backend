@@ -1,6 +1,9 @@
+import json
+import os
+
 from flask import Flask, jsonify, request, abort
 from api.utils import (
-    validate_ext, save_uploaded_image, get_image_detail
+    validate_ext, save_uploaded_image, get_image_detail, save_image_from_url
 )
 from api.constants import (
     ALLOWED_EXTENSIONS, UPLOAD_DIR, UPLOADS_FULL_PATH
@@ -41,12 +44,23 @@ def upload_image():
 
         # save uploaded image
         image_id = save_uploaded_image(uploaded_file)
-
         return jsonify({"image_id": image_id})
 
-    else:
+    elif request.is_json:
         # if file not uploaded we can assume image url upload
-        abort(400, "Not implemented")
+        request_data = request.json
+
+        image_url = request_data.get("url")
+        if not validate_ext(image_url):
+            abort(400, "File not allowed.")
+
+        image_id = save_image_from_url(image_url)
+        if not image_id:
+            abort(400, "Image download failed.")
+        return jsonify({"image_id": image_id})
+
+    # no file upload or image url, abort
+    abort(400)
 
 
 @app.route("/analyse_image", methods=["GET"])
@@ -67,7 +81,14 @@ def analyse_image():
 
 @app.route("/list_images", methods=["GET"])
 def list_images():
-    return jsonify({})
+    image_list = os.listdir(app.config['UPLOADS_FULL_PATH'])
+    ret_list = []
+    for image in image_list:
+        ret_list.append({
+            "id": image.split(".")[0],
+            "image": os.path.join(app.config['UPLOAD_PATH'], image)
+        })
+    return jsonify(ret_list)
 
 
 if __name__ == "__main__":

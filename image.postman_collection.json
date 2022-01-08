@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "c1979081-198b-4fc0-b48d-e199d98248a9",
+		"name": "aigeeko",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "upload image file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/karlmichaeladu-gyamfi/Pictures/pexels-dominika-roseclay-1229942.jpg"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/upload_image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"upload_image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload image url",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"https://www.dpa.com/fileadmin/_processed_/b/a/csm_2._Platz_News_9f70fddc53.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/upload_image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"upload_image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "analyse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/analyse_image?image_id=53665ab05be44715a4a05aad36c8874a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"analyse_image"
+					],
+					"query": [
+						{
+							"key": "image_id",
+							"value": "53665ab05be44715a4a05aad36c8874a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "image list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/list_images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"list_images"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
