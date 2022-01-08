@@ -2,6 +2,7 @@ import json
 import os
 
 from flask import Flask, jsonify, request, abort
+from flask_cors import CORS
 from api.utils import (
     validate_ext, save_uploaded_image, get_image_detail, save_image_from_url
 )
@@ -10,6 +11,9 @@ from api.constants import (
 )
 
 app = Flask(__name__)
+
+# apply COR
+CORS(app)
 
 # configuration =====
 
