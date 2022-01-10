@@ -2,6 +2,8 @@ import json
 from unittest.mock import patch
 
 import requests
+
+
 def test_home(client):
     resp = client.get("/")
 
@@ -32,7 +34,6 @@ class TestUploadImage:
             assert resp.status_code == 400
 
     def test_upload_a_link(self, client, mocker, create_jpg_image):
-
         # read image bytes
         with open(create_jpg_image.name, 'rb') as im:
             image_content = im.read()

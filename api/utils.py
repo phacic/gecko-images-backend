@@ -87,3 +87,12 @@ def get_image_detail(image_id: str) -> Union[Tuple, None]:
             return width, height
 
     return None
+
+
+def image_exists(filename: str) -> bool:
+    """ check if image exists """
+    from api.main import app
+
+    path = app.config['UPLOADS_FULL_PATH']
+    image_list = os.listdir(path)
+    return any(image for image in image_list if image == filename)

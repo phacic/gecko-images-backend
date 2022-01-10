@@ -25,7 +25,13 @@ Returns the width and height for corresponding `image_id`
 ### List images
 _GET_ `http://localhost:5005/list_images`
 
-List all images with their unique image_id
+List all images with their unique image_ids and urls
+
+
+### Image
+_GET_ `http://localhost:5005/list_images/{filename}`
+
+Returns an image
 
 ## Testing
 Run the following to run unit tests.

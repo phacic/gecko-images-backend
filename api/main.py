@@ -1,10 +1,11 @@
 import json
 import os
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, send_from_directory, send_file
 from flask_cors import CORS
+from werkzeug.security import safe_join
 from api.utils import (
-    validate_ext, save_uploaded_image, get_image_detail, save_image_from_url
+    validate_ext, save_uploaded_image, get_image_detail, save_image_from_url, image_exists
 )
 from api.constants import (
     ALLOWED_EXTENSIONS, UPLOAD_DIR, UPLOADS_FULL_PATH
@@ -86,13 +87,16 @@ def analyse_image():
 @app.route("/list_images", methods=["GET"])
 def list_images():
     image_list = os.listdir(app.config['UPLOADS_FULL_PATH'])
-    ret_list = []
-    for image in image_list:
-        ret_list.append({
-            "id": image.split(".")[0],
-            "image": os.path.join(app.config['UPLOAD_PATH'], image)
-        })
+    ret_list = [{
+        "id": image.split(".")[0],
+        "url": f"/images/{image}"
+    } for image in image_list]
     return jsonify(ret_list)
+
+
+@app.route("/images/<path:filename>", methods=['GET'])
+def get_image(filename):
+    return send_from_directory(app.config['UPLOADS_FULL_PATH'], filename, as_attachment=True)
 
 
 if __name__ == "__main__":
